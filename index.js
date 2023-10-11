@@ -2,7 +2,7 @@ var i = 0;
 var txt = ['Facebook', 'Instagram', 'Twitter'];
 var newTextSpeed = 2000;
 var typingSpeed = 100;
-var eraseSpeed = 100;
+var eraseSpeed = 30;
 
 var txtIndex = 0;
 var charIndex = 0;
