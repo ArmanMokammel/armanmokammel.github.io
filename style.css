@@ -62,6 +62,7 @@
     font-family: "Poppins", Sans-serif;
     font-size: 39px;
     font-weight: 600;
+    margin-top: 0;
 }
 
 .channelBtn{
@@ -107,11 +108,13 @@
 .section-B .container .inner-container{
     text-align: left;
     padding: 30px;
+    margin: auto 0;
 }
 
 .frame{
     width: 560px;
     height: 315px;
+    border-radius: 5px;
 }
 
 @media only screen and (max-width: 900px){
@@ -129,6 +132,7 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        padding-bottom: 10px;
     }
 
     .section-B .container .video-container{
