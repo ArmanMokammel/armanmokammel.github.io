@@ -70,7 +70,7 @@
     font-weight: 700;
     background-color: #FF0000;
     border: none;
-    padding: 15px 32px;
+    padding: 15px 0px;
     cursor: pointer;
     box-sizing: border-box;
     display: block;
@@ -90,6 +90,7 @@
 .channelBtn a{
     color: white;
     text-decoration: none;
+    padding: 15px 32px;
 }
 
 .section-B{
@@ -149,6 +150,6 @@
 
     .frame{
         width: 100%;
-        height: 370px;
+        height: 360px;
     }
 }
