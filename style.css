@@ -1,3 +1,64 @@
+.section-C {
+    margin-top: 25px;
+    margin-bottom: 25px;
+    font-family: 'Poppins';
+}
+
+.section-C .container {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    max-width: 1140px;
+    margin: auto;
+}
+
+.elementContainer {
+    margin: 5px 5px 5px 5px;
+    padding: 20px 20px 70px 20px;
+    border-radius: 5px 5px 5px 5px;
+    box-shadow: 0px 0px 10px -3px rgba(0,0,0,0.5);
+}
+
+.elementContainer .wrapper {
+    display: grid;
+    grid-template-columns: auto;
+    text-align: center;
+}
+
+.elementContainer .wrapper .iconContainer {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    background-color: #F8C63A;
+    border-radius: 50%;
+    font-size: 50px;
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+}
+
+.elementContainer .wrapper .iconContainer i {
+    color: white;
+}
+
+.socialsContainer {
+    display: grid;
+    grid-template-columns: auto auto auto auto auto;
+    column-gap: 5px;
+    font-size: 20px;
+}
+
+.elementContainer .wrapper .socialsContainer a{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #5F5F5F;
+    text-decoration: none;
+    color: white;
+    border-radius: 10%;
+    width: 40px;
+    height: 40px;
+}
+
 .section-A {
     min-height: 150px;
     height: auto;
