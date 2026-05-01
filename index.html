@@ -6,22 +6,47 @@
   <title>Arman Mokammel — Developer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=Plus+Jakarta+Sans:wght@600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #080c10;
-      --surface: #0e1318;
-      --surface2: #141b22;
-      --border: #1e2a34;
-      --accent: #00e5ff;
-      --accent2: #7b61ff;
-      --accent3: #00ff9d;
-      --text: #e2eaf2;
-      --muted: #5a7080;
-      --mono: 'IBM Plex Mono', monospace;
-      --sans: 'Syne', sans-serif;
+      --bg: #151c2c;
+      --surface: #1c2537;
+      --surface2: #243044;
+      --border: #2e3d55;
+      --accent: #38bdf8;
+      --accent2: #a78bfa;
+      --accent3: #34d399;
+      --text: #e2e8f0;
+      --muted: #7a90aa;
+      --mono: 'DM Mono', monospace;
+      --sans: 'Plus Jakarta Sans', sans-serif;
+      --body: 'DM Sans', sans-serif;
+      --nav-bg: rgba(21,28,44,0.88);
+      --hero-grid: rgba(56,189,248,0.06);
+      --glow1: rgba(56,189,248,0.10);
+      --glow2: rgba(167,139,250,0.09);
+      --prose: #94a8bf;
+      --card-hover-shadow: rgba(0,0,0,0.30);
+    }
+
+    html.light {
+      --bg: #f5f6f8;
+      --surface: #ffffff;
+      --surface2: #eef0f4;
+      --border: #dde1e9;
+      --accent: #2563eb;
+      --accent2: #7c3aed;
+      --accent3: #059669;
+      --text: #0f172a;
+      --muted: #64748b;
+      --nav-bg: rgba(245,246,248,0.88);
+      --hero-grid: rgba(37,99,235,0.07);
+      --glow1: rgba(37,99,235,0.12);
+      --glow2: rgba(124,58,237,0.09);
+      --prose: #475569;
+      --card-hover-shadow: rgba(37,99,235,0.10);
     }
 
     html { scroll-behavior: smooth; }
@@ -29,8 +54,8 @@
     body {
       background: var(--bg);
       color: var(--text);
-      font-family: var(--mono);
-      font-size: 14px;
+      font-family: var(--body);
+      font-size: 15px;
       line-height: 1.7;
       overflow-x: hidden;
     }
@@ -40,27 +65,13 @@
       content: '';
       position: fixed;
       inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
       pointer-events: none;
       z-index: 1000;
-      opacity: 0.5;
+      opacity: 0.3;
     }
 
-    /* ─── Scanlines ─── */
-    body::after {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background: repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 2px,
-        rgba(0,0,0,0.04) 2px,
-        rgba(0,0,0,0.04) 4px
-      );
-      pointer-events: none;
-      z-index: 999;
-    }
+    /* no scanlines in light mode */
 
     /* ─── Nav ─── */
     nav {
@@ -71,7 +82,7 @@
       align-items: center;
       justify-content: space-between;
       padding: 1.2rem 3rem;
-      background: rgba(8,12,16,0.85);
+      background: var(--nav-bg);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
     }
@@ -118,8 +129,8 @@
       position: absolute;
       inset: 0;
       background-image:
-        linear-gradient(rgba(0,229,255,0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,229,255,0.04) 1px, transparent 1px);
+        linear-gradient(var(--hero-grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--hero-grid) 1px, transparent 1px);
       background-size: 60px 60px;
       mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black, transparent);
     }
@@ -128,7 +139,7 @@
       position: absolute;
       width: 600px; height: 600px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(0,229,255,0.08) 0%, transparent 70%);
+      background: radial-gradient(circle, var(--glow1) 0%, transparent 70%);
       top: -100px; right: -100px;
       animation: pulse 6s ease-in-out infinite;
     }
@@ -136,7 +147,7 @@
       position: absolute;
       width: 400px; height: 400px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(123,97,255,0.07) 0%, transparent 70%);
+      background: radial-gradient(circle, var(--glow2) 0%, transparent 70%);
       bottom: 0; left: 10%;
       animation: pulse 8s ease-in-out infinite reverse;
     }
@@ -196,8 +207,8 @@
 
     .hero-desc {
       max-width: 540px;
-      color: #8fa3b2;
-      font-size: 14px;
+      color: var(--prose);
+      font-size: 15px;
       line-height: 1.8;
       margin-bottom: 2.5rem;
       animation: fadeUp 0.6s 0.3s ease both;
@@ -322,42 +333,42 @@
       align-items: center;
     }
     .about-text p {
-      color: #8fa3b2;
+      color: var(--prose);
       line-height: 1.9;
       margin-bottom: 1.2rem;
     }
     .about-text p strong { color: var(--text); }
 
     .terminal {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 4px;
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      border-radius: 8px;
       overflow: hidden;
     }
     .terminal-bar {
-      background: var(--surface2);
+      background: #1e293b;
       padding: 0.6rem 1rem;
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid #2d3f52;
     }
     .dot { width: 10px; height: 10px; border-radius: 50%; }
     .dot-r { background: #ff5f57; }
     .dot-y { background: #febc2e; }
     .dot-g { background: #28c840; }
-    .terminal-title { font-size: 11px; color: var(--muted); margin-left: 0.5rem; letter-spacing: 0.05em; }
-    .terminal-body { padding: 1.5rem; font-size: 13px; line-height: 2; }
-    .t-prompt { color: var(--accent3); }
-    .t-cmd { color: var(--text); }
-    .t-out { color: var(--muted); }
-    .t-key { color: var(--accent2); }
-    .t-val { color: var(--accent); }
-    .t-str { color: var(--accent3); }
+    .terminal-title { font-size: 11px; color: #64748b; margin-left: 0.5rem; letter-spacing: 0.05em; }
+    .terminal-body { padding: 1.5rem; font-size: 13px; line-height: 2; color: #e2e8f0; }
+    .t-prompt { color: #34d399; }
+    .t-cmd { color: #e2e8f0; }
+    .t-out { color: #64748b; }
+    .t-key { color: #a78bfa; }
+    .t-val { color: #38bdf8; }
+    .t-str { color: #34d399; }
     .cursor {
       display: inline-block;
       width: 8px; height: 14px;
-      background: var(--accent);
+      background: #38bdf8;
       vertical-align: middle;
       animation: blink 1s step-end infinite;
     }
@@ -375,9 +386,9 @@
       background: var(--surface);
       position: relative;
       overflow: hidden;
-      transition: border-color 0.2s, transform 0.2s;
+      transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
     }
-    .skill-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .skill-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 6px 24px var(--card-hover-shadow); }
     .skill-card::after {
       content: '';
       position: absolute;
@@ -425,7 +436,7 @@
     }
     .project-card {
       border: 1px solid var(--border);
-      background: var(--bg);
+      background: var(--surface);
       padding: 2rem;
       position: relative;
       overflow: hidden;
@@ -433,7 +444,7 @@
       display: flex;
       flex-direction: column;
     }
-    .project-card:hover { border-color: var(--accent2); }
+    .project-card:hover { border-color: var(--accent2); box-shadow: 0 8px 28px var(--card-hover-shadow); }
     .project-card::before {
       content: '';
       position: absolute;
@@ -500,7 +511,7 @@
       gap: 4rem;
       align-items: center;
     }
-    .ieee-text p { color: #8fa3b2; line-height: 1.9; margin-bottom: 1rem; }
+    .ieee-text p { color: var(--prose); line-height: 1.9; margin-bottom: 1rem; }
     .ieee-card {
       border: 1px solid var(--border);
       padding: 2rem;
@@ -519,7 +530,6 @@
       color: var(--accent);
       letter-spacing: 0.2em;
     }
-    .ieee-roles { display: flex; flex-direction: column; gap: 1rem; }
     .ieee-role {
       display: flex;
       flex-direction: column;
@@ -578,6 +588,30 @@
     .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
     .reveal.visible { opacity: 1; transform: none; }
 
+    /* ─── Theme Toggle ─── */
+    .theme-toggle {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 0.35rem 0.75rem;
+      cursor: pointer;
+      font-size: 14px;
+      line-height: 1;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: var(--muted);
+    }
+    .theme-toggle:hover { border-color: var(--accent); }
+
+    /* smooth color transitions on toggle */
+    html { transition: background 0.3s, color 0.3s; }
+    body, nav, .skill-card, .project-card, .stat-box, .terminal,
+    .ieee-card, section, footer {
+      transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+    }
+
     @media (max-width: 900px) {
       nav { padding: 1rem 1.5rem; }
       .nav-links { display: none; }
@@ -601,6 +635,9 @@
       <li><a href="#ieee">IEEE</a></li>
       <li><a href="#contact" class="nav-cta">Contact</a></li>
     </ul>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+      <span class="toggle-icon">☀️</span>
+    </button>
   </nav>
 
   <!-- Hero -->
@@ -615,9 +652,9 @@
         <span class="kw">const</span> role = <span class="str">"Full‑Stack Developer"</span>;
       </p>
       <p class="hero-desc">
-        A passionate developer from Bangladesh building robust backends, modern frontends,
-        and systems-level software. IEEE NSU Student Branch contributor. Focused on
-        clean architecture, real-world impact.
+        I'm a passionate developer from Bangladesh. I build robust backends, modern frontends,
+        and systems-level software. I contribute to IEEE NSU Student Branch and I'm focused on
+        clean architecture and real-world impact.
       </p>
       <div class="hero-actions">
         <a href="#projects" class="btn btn-primary">↓ View Projects</a>
@@ -651,18 +688,18 @@
     <div class="about-grid">
       <div class="about-text reveal">
         <p>
-          I'm <strong>Arman Mokammel</strong>, a software developer based in <strong>Bangladesh</strong> with a focus on building
-          meaningful digital experiences. From low-level C systems to modern TypeScript frontends,
+          I'm <strong>Arman Mokammel</strong>, a software developer based in <strong>Bangladesh</strong>. I love building
+          meaningful digital experiences — from low-level C systems to modern TypeScript frontends,
           I thrive across the full stack.
         </p>
         <p>
-          My work at <strong>IEEE NSU Student Branch</strong> has honed my ability to collaborate on
-          real-world, production-grade platforms — including full website rebuilds, event management
+          I'm an active contributor at <strong>IEEE NSU Student Branch</strong> at North South University.
+          That's where I've worked on real, production-grade platforms — full website rebuilds, event management
           systems, and backend APIs serving the university community.
         </p>
         <p>
           I'm driven by the challenge of turning complex problems into clean, maintainable code.
-          Whether it's crafting a Django REST API or engineering a restaurant management system
+          Whether I'm crafting a Django REST API or engineering a restaurant management system
           from scratch in C, I bring precision and passion to every project.
         </p>
       </div>
@@ -891,18 +928,18 @@
     <div class="ieee-content">
       <div class="ieee-text reveal">
         <p>
-          Arman is an active contributor to the <strong>IEEE NSU Student Branch</strong> at North South University —
+          I'm an active contributor to the <strong>IEEE NSU Student Branch</strong> at North South University —
           one of Bangladesh's leading engineering student organizations under IEEE, the world's largest
           technical professional organization.
         </p>
         <p>
-          His technical contributions span the full scope of the branch's digital infrastructure:
+          My technical contributions span the full scope of the branch's digital infrastructure:
           from architecting Django backends that power member-facing services, to co-building the
           organization's primary public website in TypeScript, to developing the SPAC event platform
           used internally for managing workshops, competitions, and seminars.
         </p>
         <p>
-          This real-world collaborative experience has sharpened his skills in production-grade
+          This experience has sharpened my skills in production-grade
           development, team-based Git workflows, code review culture, and deploying software used
           by hundreds of students.
         </p>
@@ -935,8 +972,8 @@
       <span class="section-tag">// 05 — Let's Connect</span>
       <h2 class="section-title">Get In Touch</h2>
       <p>
-        Whether you have a project in mind, want to collaborate, or just want to connect —
-        I'm always open to interesting conversations.
+        Whether you have a project in mind, want to collaborate, or just want to say hi —
+        I'm always open to interesting conversations. Let's build something together.
       </p>
       <div class="contact-links">
         <a href="https://github.com/ArmanMokammel" target="_blank" class="contact-item">
@@ -956,11 +993,25 @@
 
   <!-- Footer -->
   <footer>
-    <span>© 2026 Arman Mokammel. Built with care.</span>
+    <span>© 2026 Arman Mokammel — Designed & built by me.</span>
     <span style="color:var(--border)">arman@dev:~$<span class="cursor" style="width:6px;height:12px;margin-left:4px;"></span></span>
   </footer>
 
   <script>
+    // ─── Theme Toggle ───
+    const toggle = document.getElementById('themeToggle');
+    const icon = toggle.querySelector('.toggle-icon');
+    const html = document.documentElement;
+
+    const saved = localStorage.getItem('theme');
+    if (saved === 'light') { html.classList.add('light'); icon.textContent = '🌙'; }
+
+    toggle.addEventListener('click', () => {
+      const isLight = html.classList.toggle('light');
+      icon.textContent = isLight ? '🌙' : '☀️';
+      localStorage.setItem('theme', isLight ? 'light' : 'dark');
+    });
+
     // Scroll reveal
     const reveals = document.querySelectorAll('.reveal');
     const observer = new IntersectionObserver((entries) => {
