@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arman Mokammel — Developer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #080c10;
+      --surface: #0e1318;
+      --surface2: #141b22;
+      --border: #1e2a34;
+      --accent: #00e5ff;
+      --accent2: #7b61ff;
+      --accent3: #00ff9d;
+      --text: #e2eaf2;
+      --muted: #5a7080;
+      --mono: 'IBM Plex Mono', monospace;
+      --sans: 'Syne', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: 14px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ─── Noise overlay ─── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 1000;
+      opacity: 0.5;
+    }
+
+    /* ─── Scanlines ─── */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.04) 2px,
+        rgba(0,0,0,0.04) 4px
+      );
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    /* ─── Nav ─── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.2rem 3rem;
+      background: rgba(8,12,16,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: var(--sans);
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: var(--accent);
+      letter-spacing: -0.02em;
+      text-decoration: none;
+    }
+
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    .nav-cta {
+      border: 1px solid var(--accent);
+      color: var(--accent) !important;
+      padding: 0.4rem 1rem;
+      border-radius: 2px;
+    }
+    .nav-cta:hover { background: var(--accent); color: var(--bg) !important; }
+
+    /* ─── Hero ─── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 8rem 3rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,229,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,229,255,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black, transparent);
+    }
+
+    .hero-glow {
+      position: absolute;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,229,255,0.08) 0%, transparent 70%);
+      top: -100px; right: -100px;
+      animation: pulse 6s ease-in-out infinite;
+    }
+    .hero-glow2 {
+      position: absolute;
+      width: 400px; height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(123,97,255,0.07) 0%, transparent 70%);
+      bottom: 0; left: 10%;
+      animation: pulse 8s ease-in-out infinite reverse;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.1); opacity: 0.7; }
+    }
+
+    .hero-content { position: relative; max-width: 900px; }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      border: 1px solid var(--border);
+      padding: 0.35rem 0.8rem;
+      border-radius: 2px;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 2rem;
+      animation: fadeUp 0.6s ease both;
+    }
+    .hero-badge::before {
+      content: '';
+      display: block;
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent3);
+      animation: blink 2s ease-in-out infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+    .hero-name {
+      font-family: var(--sans);
+      font-weight: 800;
+      font-size: clamp(3rem, 8vw, 6rem);
+      line-height: 0.95;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.5rem;
+      animation: fadeUp 0.6s 0.1s ease both;
+    }
+
+    .hero-name span { color: var(--accent); }
+
+    .hero-title {
+      font-family: var(--mono);
+      font-size: clamp(1rem, 2.5vw, 1.3rem);
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.6s 0.2s ease both;
+    }
+    .hero-title .kw { color: var(--accent2); }
+    .hero-title .str { color: var(--accent3); }
+
+    .hero-desc {
+      max-width: 540px;
+      color: #8fa3b2;
+      font-size: 14px;
+      line-height: 1.8;
+      margin-bottom: 2.5rem;
+      animation: fadeUp 0.6s 0.3s ease both;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      animation: fadeUp 0.6s 0.4s ease both;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.75rem;
+      border-radius: 2px;
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: var(--bg);
+      border: 1px solid var(--accent);
+      font-weight: 600;
+    }
+    .btn-primary:hover { background: transparent; color: var(--accent); }
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+    .hero-stats {
+      position: absolute;
+      right: 0; top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      animation: fadeLeft 0.8s 0.5s ease both;
+    }
+
+    .stat-box {
+      border: 1px solid var(--border);
+      padding: 1.2rem 1.5rem;
+      background: var(--surface);
+      min-width: 160px;
+      position: relative;
+      overflow: hidden;
+    }
+    .stat-box::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 2px; height: 100%;
+      background: var(--accent);
+    }
+    .stat-num {
+      font-family: var(--sans);
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-top: 0.3rem;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeLeft {
+      from { opacity: 0; transform: translate(24px, -50%); }
+      to { opacity: 1; transform: translate(0, -50%); }
+    }
+
+    /* ─── Section base ─── */
+    section { padding: 6rem 3rem; }
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 3.5rem;
+    }
+    .section-tag {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    .section-title {
+      font-family: var(--sans);
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+    .section-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ─── About ─── */
+    #about { background: var(--surface); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+    .about-text p {
+      color: #8fa3b2;
+      line-height: 1.9;
+      margin-bottom: 1.2rem;
+    }
+    .about-text p strong { color: var(--text); }
+
+    .terminal {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .terminal-bar {
+      background: var(--surface2);
+      padding: 0.6rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dot-r { background: #ff5f57; }
+    .dot-y { background: #febc2e; }
+    .dot-g { background: #28c840; }
+    .terminal-title { font-size: 11px; color: var(--muted); margin-left: 0.5rem; letter-spacing: 0.05em; }
+    .terminal-body { padding: 1.5rem; font-size: 13px; line-height: 2; }
+    .t-prompt { color: var(--accent3); }
+    .t-cmd { color: var(--text); }
+    .t-out { color: var(--muted); }
+    .t-key { color: var(--accent2); }
+    .t-val { color: var(--accent); }
+    .t-str { color: var(--accent3); }
+    .cursor {
+      display: inline-block;
+      width: 8px; height: 14px;
+      background: var(--accent);
+      vertical-align: middle;
+      animation: blink 1s step-end infinite;
+    }
+
+    /* ─── Skills ─── */
+    #skills { background: var(--bg); }
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .skill-card {
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+      background: var(--surface);
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .skill-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .skill-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, var(--accent), transparent);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .skill-card:hover::after { opacity: 1; }
+
+    .skill-icon {
+      width: 40px; height: 40px;
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      border-radius: 2px;
+    }
+    .skill-name {
+      font-family: var(--sans);
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+    }
+    .skill-desc { font-size: 12px; color: var(--muted); line-height: 1.6; }
+    .skill-tags {
+      display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem;
+    }
+    .tag {
+      font-size: 10px;
+      padding: 0.2rem 0.5rem;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      border-radius: 1px;
+    }
+
+    /* ─── Projects ─── */
+    #projects { background: var(--surface); }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 1.5rem;
+    }
+    .project-card {
+      border: 1px solid var(--border);
+      background: var(--bg);
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s;
+      display: flex;
+      flex-direction: column;
+    }
+    .project-card:hover { border-color: var(--accent2); }
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent2), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .project-card:hover::before { opacity: 1; }
+
+    .project-number {
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      margin-bottom: 1rem;
+    }
+    .project-name {
+      font-family: var(--sans);
+      font-weight: 700;
+      font-size: 1.2rem;
+      margin-bottom: 0.75rem;
+      color: var(--text);
+    }
+    .project-desc {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+      flex: 1;
+    }
+    .project-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: auto;
+    }
+    .project-lang {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 11px;
+      color: var(--muted);
+    }
+    .lang-dot { width: 8px; height: 8px; border-radius: 50%; }
+    .project-links { display: flex; gap: 0.75rem; }
+    .icon-link {
+      width: 32px; height: 32px;
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 14px;
+      transition: all 0.2s;
+      border-radius: 2px;
+    }
+    .icon-link:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ─── IEEE ─── */
+    #ieee { background: var(--bg); }
+    .ieee-content {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+    .ieee-text p { color: #8fa3b2; line-height: 1.9; margin-bottom: 1rem; }
+    .ieee-card {
+      border: 1px solid var(--border);
+      padding: 2rem;
+      background: var(--surface);
+      position: relative;
+    }
+    .ieee-card::before {
+      content: 'IEEE';
+      position: absolute;
+      top: -12px; left: 1.5rem;
+      background: var(--surface);
+      padding: 0 0.5rem;
+      font-family: var(--sans);
+      font-weight: 800;
+      font-size: 0.75rem;
+      color: var(--accent);
+      letter-spacing: 0.2em;
+    }
+    .ieee-roles { display: flex; flex-direction: column; gap: 1rem; }
+    .ieee-role {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .ieee-role:last-child { border-bottom: none; padding-bottom: 0; }
+    .role-name { font-weight: 500; color: var(--text); font-size: 13px; }
+    .role-org { font-size: 11px; color: var(--accent2); letter-spacing: 0.08em; }
+    .role-desc { font-size: 12px; color: var(--muted); }
+
+    /* ─── Contact ─── */
+    #contact { background: var(--surface); }
+    .contact-inner {
+      max-width: 700px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .contact-inner .section-tag { display: block; margin-bottom: 1rem; }
+    .contact-inner .section-title { margin-bottom: 1.5rem; }
+    .contact-inner p { color: var(--muted); margin-bottom: 2.5rem; line-height: 1.9; }
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      border: 1px solid var(--border);
+      padding: 0.75rem 1.25rem;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      border-radius: 2px;
+      transition: all 0.2s;
+    }
+    .contact-item:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ─── Footer ─── */
+    footer {
+      padding: 2rem 3rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    /* ─── Scroll reveal ─── */
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .hero { padding: 7rem 1.5rem 4rem; }
+      .hero-stats { display: none; }
+      section { padding: 4rem 1.5rem; }
+      .about-grid, .ieee-content { grid-template-columns: 1fr; gap: 2rem; }
+      footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav>
+    <a href="#" class="nav-logo">AM</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#ieee">IEEE</a></li>
+      <li><a href="#contact" class="nav-cta">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero" id="home">
+    <div class="hero-grid"></div>
+    <div class="hero-glow"></div>
+    <div class="hero-glow2"></div>
+    <div class="hero-content">
+      <div class="hero-badge">Available for opportunities</div>
+      <h1 class="hero-name">Arman<br /><span>Mokammel</span></h1>
+      <p class="hero-title">
+        <span class="kw">const</span> role = <span class="str">"Full‑Stack Developer"</span>;
+      </p>
+      <p class="hero-desc">
+        A passionate developer from Bangladesh building robust backends, modern frontends,
+        and systems-level software. IEEE NSU Student Branch contributor. Focused on
+        clean architecture, real-world impact.
+      </p>
+      <div class="hero-actions">
+        <a href="#projects" class="btn btn-primary">↓ View Projects</a>
+        <a href="https://github.com/ArmanMokammel" class="btn btn-ghost" target="_blank">GitHub Profile</a>
+        <a href="https://www.linkedin.com/in/arman-mokammel/" class="btn btn-ghost" target="_blank">LinkedIn</a>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-box">
+        <div class="stat-num">18</div>
+        <div class="stat-label">Repositories</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">5+</div>
+        <div class="stat-label">Tech Stacks</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">IEEE</div>
+        <div class="stat-label">Contributor</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about">
+    <div class="section-header reveal">
+      <span class="section-tag">// 01</span>
+      <h2 class="section-title">About Me</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p>
+          I'm <strong>Arman Mokammel</strong>, a software developer based in <strong>Bangladesh</strong> with a focus on building
+          meaningful digital experiences. From low-level C systems to modern TypeScript frontends,
+          I thrive across the full stack.
+        </p>
+        <p>
+          My work at <strong>IEEE NSU Student Branch</strong> has honed my ability to collaborate on
+          real-world, production-grade platforms — including full website rebuilds, event management
+          systems, and backend APIs serving the university community.
+        </p>
+        <p>
+          I'm driven by the challenge of turning complex problems into clean, maintainable code.
+          Whether it's crafting a Django REST API or engineering a restaurant management system
+          from scratch in C, I bring precision and passion to every project.
+        </p>
+      </div>
+      <div class="terminal reveal">
+        <div class="terminal-bar">
+          <span class="dot dot-r"></span>
+          <span class="dot dot-y"></span>
+          <span class="dot dot-g"></span>
+          <span class="terminal-title">arman@dev ~ whoami</span>
+        </div>
+        <div class="terminal-body">
+          <div><span class="t-prompt">$ </span><span class="t-cmd">cat profile.json</span></div>
+          <div class="t-out">{</div>
+          <div>&nbsp;&nbsp;<span class="t-key">"name"</span>: <span class="t-str">"Arman Mokammel"</span>,</div>
+          <div>&nbsp;&nbsp;<span class="t-key">"location"</span>: <span class="t-str">"Bangladesh 🇧🇩"</span>,</div>
+          <div>&nbsp;&nbsp;<span class="t-key">"role"</span>: <span class="t-str">"Full-Stack Dev"</span>,</div>
+          <div>&nbsp;&nbsp;<span class="t-key">"org"</span>: <span class="t-str">"IEEE NSU SB"</span>,</div>
+          <div>&nbsp;&nbsp;<span class="t-key">"repos"</span>: <span class="t-val">18</span>,</div>
+          <div>&nbsp;&nbsp;<span class="t-key">"status"</span>: <span class="t-str">"🎯 Focusing"</span></div>
+          <div class="t-out">}</div>
+          <div style="margin-top:0.5rem"><span class="t-prompt">$ </span><span class="cursor"></span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills -->
+  <section id="skills">
+    <div class="section-header reveal">
+      <span class="section-tag">// 02</span>
+      <h2 class="section-title">Tech Stack</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-card reveal">
+        <div class="skill-icon">🐍</div>
+        <div class="skill-name">Python & Django</div>
+        <div class="skill-desc">Backend web development with Django, REST APIs, and server-side architecture powering real platforms.</div>
+        <div class="skill-tags">
+          <span class="tag">Django</span>
+          <span class="tag">REST API</span>
+          <span class="tag">Backend</span>
+        </div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-icon">🟦</div>
+        <div class="skill-name">TypeScript</div>
+        <div class="skill-desc">Strongly typed frontend development. Building modern, scalable UIs with confidence and developer tooling.</div>
+        <div class="skill-tags">
+          <span class="tag">TypeScript</span>
+          <span class="tag">Frontend</span>
+          <span class="tag">Web</span>
+        </div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-icon">☕</div>
+        <div class="skill-name">Java</div>
+        <div class="skill-desc">Object-oriented systems and application development. Comfortable with OOP patterns and JVM ecosystem.</div>
+        <div class="skill-tags">
+          <span class="tag">Java</span>
+          <span class="tag">OOP</span>
+          <span class="tag">Systems</span>
+        </div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-icon">⚙️</div>
+        <div class="skill-name">C / Systems</div>
+        <div class="skill-desc">Low-level programming and systems design. Deep understanding of memory, pointers, and performance-critical code.</div>
+        <div class="skill-tags">
+          <span class="tag">C</span>
+          <span class="tag">Systems</span>
+          <span class="tag">Low-level</span>
+        </div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-icon">🌐</div>
+        <div class="skill-name">HTML / CSS / JS</div>
+        <div class="skill-desc">Web fundamentals done right. Semantic markup, responsive design, and interactive experiences.</div>
+        <div class="skill-tags">
+          <span class="tag">HTML</span>
+          <span class="tag">CSS</span>
+          <span class="tag">JavaScript</span>
+        </div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-icon">🔧</div>
+        <div class="skill-name">Dev Tools & Git</div>
+        <div class="skill-desc">Version control, collaboration, and modern developer workflows on GitHub with Pull Shark recognition.</div>
+        <div class="skill-tags">
+          <span class="tag">Git</span>
+          <span class="tag">GitHub</span>
+          <span class="tag">CI/CD</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects">
+    <div class="section-header reveal">
+      <span class="section-tag">// 03</span>
+      <h2 class="section-title">Projects</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="projects-grid">
+
+      <div class="project-card reveal">
+        <div class="project-number">001 / IEEE NSU SB</div>
+        <div class="project-name">Django Backend</div>
+        <div class="project-desc">
+          The core backend powering the IEEE NSU Student Branch website. A production Django application
+          handling routes, data models, and serving content to the university community.
+        </div>
+        <div class="project-footer">
+          <div class="project-lang">
+            <div class="lang-dot" style="background:#e34c26"></div>
+            HTML / Django
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/IEEE-NSU-SB/Django-Backend" class="icon-link" target="_blank" title="GitHub">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-number">002 / IEEE NSU SB</div>
+        <div class="project-name">Main Web Frontend</div>
+        <div class="project-desc">
+          The public-facing frontend for IEEE NSU Student Branch. Built with TypeScript for a
+          type-safe, maintainable codebase. A modern web interface for student members and visitors.
+        </div>
+        <div class="project-footer">
+          <div class="project-lang">
+            <div class="lang-dot" style="background:#3178c6"></div>
+            TypeScript
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/IEEE-NSU-SB/Main-Web-Frontend" class="icon-link" target="_blank" title="GitHub">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-number">003 / IEEE NSU SB</div>
+        <div class="project-name">SPAC Platform Backend</div>
+        <div class="project-desc">
+          Backend infrastructure for the SPAC (Student Platform) — a dedicated event and activity
+          management system built for IEEE NSU SB's internal platform needs.
+        </div>
+        <div class="project-footer">
+          <div class="project-lang">
+            <div class="lang-dot" style="background:#e34c26"></div>
+            HTML / Backend
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/IEEE-NSU-SB/SPAC-Platform-Backend" class="icon-link" target="_blank" title="GitHub">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-number">004 / Personal</div>
+        <div class="project-name">ASL — Restaurant Mgmt (Java)</div>
+        <div class="project-desc">
+          A fully-featured restaurant management system built in Java. Demonstrates OOP principles,
+          data structures, and application design in a real-world business context.
+        </div>
+        <div class="project-footer">
+          <div class="project-lang">
+            <div class="lang-dot" style="background:#b07219"></div>
+            Java
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/ArmanMokammel/ASL-Java" class="icon-link" target="_blank" title="GitHub">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-number">005 / Personal</div>
+        <div class="project-name">ASP.C — Restaurant Mgmt (C)</div>
+        <div class="project-desc">
+          A restaurant management system engineered in pure C. A systems-level take on business
+          software — showcasing memory management, structs, and procedural design patterns.
+        </div>
+        <div class="project-footer">
+          <div class="project-lang">
+            <div class="lang-dot" style="background:#555555"></div>
+            C
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/ArmanMokammel/ASP.C" class="icon-link" target="_blank" title="GitHub">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card reveal" style="border-style: dashed; display:flex; align-items:center; justify-content:center; text-align:center; min-height:200px;">
+        <div>
+          <div style="font-size:2rem; margin-bottom:0.75rem; opacity:0.3">+</div>
+          <div style="font-family: var(--sans); font-weight:700; font-size:1rem; color:var(--muted)">13 More Repos</div>
+          <div style="font-size:12px; color:var(--muted); margin-top:0.5rem;">on GitHub</div>
+          <a href="https://github.com/ArmanMokammel" target="_blank" style="display:inline-block; margin-top:1rem;" class="btn btn-ghost">View All →</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- IEEE -->
+  <section id="ieee">
+    <div class="section-header reveal">
+      <span class="section-tag">// 04</span>
+      <h2 class="section-title">IEEE NSU SB</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="ieee-content">
+      <div class="ieee-text reveal">
+        <p>
+          Arman is an active contributor to the <strong>IEEE NSU Student Branch</strong> at North South University —
+          one of Bangladesh's leading engineering student organizations under IEEE, the world's largest
+          technical professional organization.
+        </p>
+        <p>
+          His technical contributions span the full scope of the branch's digital infrastructure:
+          from architecting Django backends that power member-facing services, to co-building the
+          organization's primary public website in TypeScript, to developing the SPAC event platform
+          used internally for managing workshops, competitions, and seminars.
+        </p>
+        <p>
+          This real-world collaborative experience has sharpened his skills in production-grade
+          development, team-based Git workflows, code review culture, and deploying software used
+          by hundreds of students.
+        </p>
+      </div>
+      <div class="ieee-card reveal">
+        <div class="ieee-roles">
+          <div class="ieee-role">
+            <div class="role-name">Backend Developer</div>
+            <div class="role-org">IEEE NSU Student Branch</div>
+            <div class="role-desc">Django backend for the main organizational website</div>
+          </div>
+          <div class="ieee-role">
+            <div class="role-name">Frontend Contributor</div>
+            <div class="role-org">IEEE NSU Student Branch</div>
+            <div class="role-desc">TypeScript-based main web frontend development</div>
+          </div>
+          <div class="ieee-role">
+            <div class="role-name">Platform Engineer</div>
+            <div class="role-org">IEEE NSU SB — SPAC</div>
+            <div class="role-desc">Backend infrastructure for SPAC student platform</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <div class="contact-inner reveal">
+      <span class="section-tag">// 05 — Let's Connect</span>
+      <h2 class="section-title">Get In Touch</h2>
+      <p>
+        Whether you have a project in mind, want to collaborate, or just want to connect —
+        I'm always open to interesting conversations.
+      </p>
+      <div class="contact-links">
+        <a href="https://github.com/ArmanMokammel" target="_blank" class="contact-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub
+        </a>
+        <a href="https://www.linkedin.com/in/arman-mokammel/" target="_blank" class="contact-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          LinkedIn
+        </a>
+        <a href="https://github.com/IEEE-NSU-SB" target="_blank" class="contact-item">
+          ⚡ IEEE NSU SB
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <span>© 2026 Arman Mokammel. Built with care.</span>
+    <span style="color:var(--border)">arman@dev:~$<span class="cursor" style="width:6px;height:12px;margin-left:4px;"></span></span>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 80);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => observer.observe(el));
+
+    // Stagger cards within grids
+    document.querySelectorAll('.skills-grid .reveal, .projects-grid .reveal').forEach((el, i) => {
+      el.style.transitionDelay = (i % 3) * 0.08 + 's';
+    });
+  </script>
+
+</body>
+</html>
